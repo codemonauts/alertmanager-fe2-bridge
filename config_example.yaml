@@ -1,0 +1,7 @@
+---
+
+listen: ":8090"
+debug: True
+
+alamos_host: "localhost"
+alamos_sender: "prometheus-gateway"
