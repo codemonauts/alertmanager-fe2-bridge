@@ -24,7 +24,7 @@ func TestInputHandler(t *testing.T) {
 	server := alarmosMock()
 	defer server.Close()
 
-	client := alamos.NewClient(server.URL, "test", true)
+	client := alamos.NewClient(server.URL, "", "", true)
 	debug := true
 
 	rr := httptest.NewRecorder()

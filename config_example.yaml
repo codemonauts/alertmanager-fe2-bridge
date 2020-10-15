@@ -5,3 +5,4 @@ debug: True
 
 alamos_host: "localhost"
 alamos_sender: "prometheus-gateway"
+alamos_receiver: "admingroup42"

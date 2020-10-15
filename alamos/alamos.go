@@ -18,9 +18,10 @@ type AlamosMessage struct {
 }
 
 type AlamosClient struct {
-	URL    string
-	Sender string
-	Test   bool
+	URL     string
+	Sender  string
+	Address string
+	Test    bool
 }
 
 type AlamosResponse struct {
@@ -47,12 +48,13 @@ func (c *AlamosClient) newAlamosMessage() AlamosMessage {
 	return m
 }
 
-func NewClient(host string, sender string, test bool) AlamosClient {
+func NewClient(host string, sender string, address string, test bool) AlamosClient {
 
 	return AlamosClient{
-		URL:    fmt.Sprintf("%s%s", host, RestURL),
-		Sender: sender,
-		Test:   test,
+		URL:     fmt.Sprintf("%s%s", host, RestURL),
+		Sender:  sender,
+		Address: address,
+		Test:    test,
 	}
 }
 

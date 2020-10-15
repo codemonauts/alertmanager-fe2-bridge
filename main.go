@@ -19,6 +19,7 @@ import (
 type config struct {
 	AlamosHost string `yaml:"alamos_host"`
 	Sender     string `yaml:"alamos_sender"`
+	Receiver   string `yaml:"alamos_receiver"`
 	Debug      bool   `yaml:"debug"`
 	Listen     string `yaml:"listen"`
 }
@@ -108,7 +109,7 @@ func init() {
 
 func main() {
 	cfg := readConfigFile()
-	client := alamos.NewClient(cfg.AlamosHost, cfg.Sender, cfg.Debug)
+	client := alamos.NewClient(cfg.AlamosHost, cfg.Sender, cfg.Receiver, cfg.Debug)
 
 	http.Handle("/input", inputHandler(&client, cfg.Debug))
 
