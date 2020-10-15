@@ -108,6 +108,8 @@ func init() {
 }
 
 func main() {
+	flag.Parse()
+
 	cfg := readConfigFile()
 	client := alamos.NewClient(cfg.AlamosHost, cfg.Sender, cfg.Receiver, cfg.Debug)
 
