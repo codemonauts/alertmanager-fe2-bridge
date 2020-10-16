@@ -73,6 +73,7 @@ func inputHandler(client *alamos.AlamosClient, debug bool) http.Handler {
 					if err != nil {
 						w.WriteHeader(http.StatusInternalServerError)
 						w.Write([]byte("ERROR"))
+						return
 					}
 
 				default:
