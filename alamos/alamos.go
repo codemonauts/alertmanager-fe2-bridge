@@ -12,6 +12,7 @@ type AlamosMessage struct {
 	Message   string            `json:"message"`
 	Type      string            `json:"type"`
 	Sender    string            `json:"sender"`
+	Address   string            `json:"address"`
 	Timestamp int64             `json:"timestamp"`
 	Data      map[string]string `json:"data"`
 }
@@ -37,9 +38,11 @@ func makeTimestamp() int64 {
 func (c *AlamosClient) newAlamosMessage() AlamosMessage {
 	m := AlamosMessage{
 		Timestamp: makeTimestamp(),
+		Sender:    c.Sender,
+		Address:   c.Address,
 	}
 	if c.Test {
-		m.Type = "Test"
+		m.Type = "TEST"
 	} else {
 		m.Type = "ALARM"
 	}
@@ -59,7 +62,6 @@ func NewClient(host string, sender string, address string, test bool) AlamosClie
 
 func (client *AlamosClient) SendAlert(alertMessage string) error {
 	message := client.newAlamosMessage()
-	message.Sender = client.Sender
 	message.Message = alertMessage
 
 	body, err := json.Marshal(message)

@@ -19,7 +19,7 @@ import (
 type config struct {
 	AlamosHost string `yaml:"alamos_host"`
 	Sender     string `yaml:"alamos_sender"`
-	Receiver   string `yaml:"alamos_receiver"`
+	Address    string `yaml:"alamos_address"`
 	Debug      bool   `yaml:"debug"`
 	Listen     string `yaml:"listen"`
 }
@@ -77,7 +77,7 @@ func inputHandler(client *alamos.AlamosClient, debug bool) http.Handler {
 					}
 
 				default:
-					log.Printf("no action on severity: %s", severity)
+					fmt.Printf("no action on severity: %s", severity)
 				}
 
 			}
@@ -112,7 +112,9 @@ func main() {
 	flag.Parse()
 
 	cfg := readConfigFile()
-	client := alamos.NewClient(cfg.AlamosHost, cfg.Sender, cfg.Receiver, cfg.Debug)
+	client := alamos.NewClient(cfg.AlamosHost, cfg.Sender, cfg.Address, cfg.Debug)
+
+	fmt.Printf("Alamos Client: %+v\n", client)
 
 	http.Handle("/input", inputHandler(&client, cfg.Debug))
 
