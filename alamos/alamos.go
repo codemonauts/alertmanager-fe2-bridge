@@ -3,7 +3,6 @@ package alamos
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/imroc/req"
@@ -65,28 +64,32 @@ func (client *AlamosClient) SendAlert(alertMessage string) error {
 
 	body, err := json.Marshal(message)
 	if err != nil {
-		log.Println("Couldn't turn message into JSON")
+		fmt.Println("Couldn't turn message into JSON")
 		return err
 	}
 
-	resp, err := req.Post(client.URL, body)
+	resp, err := req.Post(client.URL, req.BodyJSON(body))
 	if err != nil {
-		log.Println(err)
+		fmt.Println(err)
 		return err
 	}
 
 	data := AlamosResponse{}
 	err = resp.ToJSON(&data)
 	if err != nil {
-		log.Println("Couldn't parse response from FE2")
+		fmt.Println("Couldn't parse response from FE2")
 		return err
 	}
 
 	code := resp.Response().StatusCode
 	if code != 200 || data.Status != "OK" {
-		log.Printf("Got an error from FE2: %d (%s)", code, data.Status)
+		if code == 400 {
+			fmt.Printf("Errormessage was: %s", data.Error)
+		}
 		return fmt.Errorf("bad response from FE2")
 	}
+
+	fmt.Println("Sucessfully send alert to FE2")
 
 	return nil
 }
