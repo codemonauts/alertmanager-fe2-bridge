@@ -38,7 +38,7 @@ func writeDebugFile(body []byte) {
 	f.Write(body)
 }
 
-func inputHandler(client *alamos.AlamosClient, debug bool) http.Handler {
+func inputHandler(client *alamos.Client, debug bool) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
 

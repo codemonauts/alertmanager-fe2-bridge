@@ -46,7 +46,7 @@ func alarmosMock() *httptest.Server {
 }
 
 func inputMock(w http.ResponseWriter, r *http.Request) {
-	resp := alamos.AlamosResponse{
+	resp := alamos.Response{
 		Status: "OK",
 	}
 	data, _ := json.Marshal(resp)
