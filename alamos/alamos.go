@@ -60,9 +60,10 @@ func NewClient(host string, sender string, address string, test bool) AlamosClie
 	}
 }
 
-func (client *AlamosClient) SendAlert(alertMessage string) error {
+func (client *AlamosClient) SendAlert(alertMessage string, data map[string]string) error {
 	message := client.newAlamosMessage()
 	message.Message = alertMessage
+	message.Data = data
 
 	body, err := json.Marshal(message)
 	if err != nil {
@@ -70,23 +71,23 @@ func (client *AlamosClient) SendAlert(alertMessage string) error {
 		return err
 	}
 
-	resp, err := req.Post(client.URL, req.BodyJSON(body))
+	r, err := req.Post(client.URL, req.BodyJSON(body))
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
 
-	data := AlamosResponse{}
-	err = resp.ToJSON(&data)
+	response := AlamosResponse{}
+	err = r.ToJSON(&response)
 	if err != nil {
 		fmt.Println("Couldn't parse response from FE2")
 		return err
 	}
 
-	code := resp.Response().StatusCode
-	if code != 200 || data.Status != "OK" {
+	code := r.Response().StatusCode
+	if code != 200 || response.Status != "OK" {
 		if code == 400 {
-			fmt.Printf("Errormessage was: %s", data.Error)
+			fmt.Printf("Errormessage was: %s", response.Error)
 		}
 		return fmt.Errorf("bad response from FE2")
 	}

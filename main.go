@@ -61,15 +61,23 @@ func inputHandler(client *alamos.AlamosClient, debug bool) http.Handler {
 				switch strings.ToUpper(severity) {
 				case "PAGE":
 					var alertText string
+					alertData := make(map[string]string)
+
+					description, ok := alert.Annotations["description"]
+					if ok {
+						alertText = description
+					} else {
+						alertText = alert.Labels["alertname"]
+					}
 
 					summary, ok := alert.Annotations["summary"]
 					if ok {
-						alertText = summary
+						alertData["keyword"] = summary
 					} else {
-						alertText = fmt.Sprintf("%s on %s", alert.Labels["alertname"], alert.Labels["instance"])
+						alertData["keyword"] = fmt.Sprintf("Instance: %s", alert.Labels["instance"])
 					}
 
-					err := client.SendAlert(alertText)
+					err := client.SendAlert(alertText, alertData)
 					if err != nil {
 						w.WriteHeader(http.StatusInternalServerError)
 						w.Write([]byte("ERROR"))
