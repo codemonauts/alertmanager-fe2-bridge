@@ -15,11 +15,11 @@ or get the latest compiled binary from the
 [Releases](https://github.com/codemonauts/alertmanager-fe2-bridge/releases) page on GitHub.
 
 ## Alertmanager configuration
-```
+```yaml
 receivers:
-  - name: 'alamos'
+  - name: "alamos"
     webhook_configs:
-      - url: 'http://<hostname>/input'
+      - url: "http://<hostname>:<port>/input"
 ```
 
 ## Alamos FE2 configuration

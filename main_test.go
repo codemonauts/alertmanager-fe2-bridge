@@ -28,7 +28,7 @@ func TestInputHandler(t *testing.T) {
 	debug := true
 
 	rr := httptest.NewRecorder()
-	handler := inputHandler(&client, debug)
+	handler := inputHandler(&client, "", debug)
 	handler.ServeHTTP(rr, req)
 
 	if status := rr.Code; status != http.StatusOK {
@@ -39,7 +39,7 @@ func TestInputHandler(t *testing.T) {
 
 func alarmosMock() *httptest.Server {
 	handler := http.NewServeMux()
-	handler.HandleFunc(alamos.RestURL, inputMock)
+	handler.HandleFunc("/rest/external/http/v2", inputMock)
 	srv := httptest.NewServer(handler)
 
 	return srv

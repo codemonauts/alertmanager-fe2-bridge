@@ -2,7 +2,9 @@
 
 listen: ":8090"
 debug: True
+debug_path: "/tmp"
 
-alamos_host: "localhost"
+alamos_endpoint: "http://localhost/rest/external/http/v2"
 alamos_sender: "prometheus-gateway"
 alamos_address: "admingroup42"
+alamos_authorization: "my_secret_password"
