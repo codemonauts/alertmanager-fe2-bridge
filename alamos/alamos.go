@@ -49,7 +49,10 @@ func writeDebugFile(body []byte, identifier string) {
 		log.Fatal(err)
 	}
 	defer f.Close()
-	f.Write(body)
+	_, err = f.Write(body)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 // Function to create a timestamp in ISO8601

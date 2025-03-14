@@ -53,5 +53,8 @@ func inputMock(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write(data)
+	_, err := w.Write(data)
+	if err != nil {
+		panic(err)
+	}
 }

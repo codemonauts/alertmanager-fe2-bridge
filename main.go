@@ -39,7 +39,10 @@ func writeDebugFile(body []byte, identifier string) {
 		log.Fatal(err)
 	}
 	defer f.Close()
-	f.Write(body)
+	_, err = f.Write(body)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 // Helper function to create a simple md5 hash for unique external IDs for Alamos alarms
@@ -65,7 +68,10 @@ func inputHandler(client *alamos.Client, address string, debug bool) http.Handle
 
 		if err := json.Unmarshal(body, &data); err != nil {
 			w.WriteHeader(http.StatusBadRequest)
-			w.Write([]byte(err.Error()))
+			_, err = w.Write([]byte(err.Error()))
+			if err != nil {
+				log.Fatal(err)
+			}
 			return
 		}
 
@@ -113,7 +119,10 @@ func inputHandler(client *alamos.Client, address string, debug bool) http.Handle
 					err := client.SendAlert(alarmData, debugIdentifier, debug)
 					if err != nil {
 						w.WriteHeader(http.StatusInternalServerError)
-						w.Write([]byte("ERROR"))
+						_, err = w.Write([]byte("ERROR"))
+						if err != nil {
+							log.Fatal(err)
+						}
 						return
 					}
 
@@ -123,7 +132,10 @@ func inputHandler(client *alamos.Client, address string, debug bool) http.Handle
 
 			}
 		}
-		w.Write([]byte("OK"))
+		_, err := w.Write([]byte("OK"))
+		if err != nil {
+			log.Fatal(err)
+		}
 	})
 }
 
