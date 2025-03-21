@@ -1,13 +1,16 @@
-name: goreleaser
+name: release
 
 on:
   push:
+    tags:
+      - '*'
 
 permissions:
   contents: write
 
 jobs:
-  goreleaser:
+  createRelease:
+    needs: lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
