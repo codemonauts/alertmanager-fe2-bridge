@@ -6,6 +6,7 @@ pkgs.mkShell {
     musl
     golangci-lint
     gopls
+    goreleaser
   ];
   shellHook = ''
   '';
